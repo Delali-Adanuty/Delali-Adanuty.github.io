@@ -1,37 +1,43 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import {Tabs} from "expo-router";
+import {Colors} from '@/constants/Colors'
+import { globalStyles, lightStyles, darkStyles } from '@/styles/globalStyles';
+import { useColorScheme } from 'react-native';
+import {MaterialCommunityIcons, Feather} from '@expo/vector-icons';
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+const TabsLayout = () => {
+    const colorScheme = useColorScheme();
+    const schemeStyle = colorScheme === 'dark' ? darkStyles : lightStyles;
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
-        }}
-      />
-    </Tabs>
-  );
+        <Tabs screenOptions={{headerShown:false, tabBarActiveTintColor: Colors.primary, tabBarStyle:schemeStyle.backgroundStyle}}>
+                <Tabs.Screen
+                    name= "natureMeditate"
+                    options = {{
+                        tabBarLabel: ({color}) => (
+                            <Text style={{...globalStyles.text, color:color}}>Meditation</Text>
+                        ),
+                        tabBarIcon: ({color}) => (
+                            <MaterialCommunityIcons name="flower-tulip" size={24} color={color} />
+                        )
+                    }}
+                />
+                <Tabs.Screen
+                    name= "affirmations"
+                    options = {{
+                        tabBarLabel: ({color}) => (
+                            <Text style={{...globalStyles.text, color:color}}>Affirmations</Text>
+                        ),
+                        tabBarIcon: ({color}) => (
+                            <Feather name="book-open" size={24} color={color} />
+                        )
+                    }}
+                />                
+        </Tabs>
+  )
 }
+
+export default TabsLayout
+
+const styles = StyleSheet.create({})
